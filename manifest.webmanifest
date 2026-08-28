@@ -1,0 +1,12 @@
+{
+  "name": "SNS Marketing Studio",
+  "short_name": "SNS Studio",
+  "lang": "ko-KR",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6d28d9",
+  "icons": [
+    {"src":"assets/favicon.svg","sizes":"any","type":"image/svg+xml"}
+  ]
+}
