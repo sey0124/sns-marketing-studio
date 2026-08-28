@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SNS Marketing Studio | AI 콘텐츠 클래스</title>
+<meta name="description" content="상품·고객·채널 정보를 입력해 SNS 마케팅 기획서, Gemini Gems 지침, 콘텐츠 아이디어를 만드는 실습형 도구" />
+<meta name="theme-color" content="#6d28d9" />
+<meta name="color-scheme" content="light" />
+<meta name="robots" content="index,follow" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content="SNS Marketing Studio | AI 콘텐츠 클래스" />
+<meta property="og:description" content="아이디어를 입력하면 SNS 전략이 완성되는 실습형 마케팅 도구" />
+<meta property="og:image" content="assets/og-image.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="manifest" href="manifest.webmanifest" />
+<style>
+:root{
+  --bg:#ffffff;--surface:#ffffff;--ink:#17131c;--muted:#6f6878;--line:#e7e1ec;
+  --brand:#6d28d9;--brand2:#a855f7;--soft:#f4effb;--ok:#6d28d9;--shadow:0 16px 40px rgba(38,25,48,.10);
+  --radius:22px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Pretendard,"Noto Sans KR",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+button,input,select,textarea{font:inherit} button{cursor:pointer}
+.shell{max-width:1440px;margin:0 auto;padding:24px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 4px 22px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;color:#fff;box-shadow:0 10px 26px rgba(139,92,246,.28)}
+.brand small{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:12px;padding:11px 15px;font-weight:750;transition:.18s ease}.btn:hover{transform:translateY(-1px)}.btn.primary{color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 10px 26px rgba(139,92,246,.28)}.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.soft{background:var(--soft);color:var(--brand)}
+.hero{position:relative;overflow:hidden;border-radius:30px;padding:42px;background:linear-gradient(135deg,#17131c 0%,#2a173d 52%,#6d28d9 100%);color:#fff;box-shadow:var(--shadow);margin-bottom:24px}.hero:after{content:"";position:absolute;right:-120px;top:-160px;width:440px;height:440px;border-radius:50%;background:rgba(255,255,255,.08)}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.1);padding:7px 11px;border-radius:999px;font-size:13px;font-weight:700}.hero h1{font-size:clamp(30px,4vw,52px);line-height:1.08;margin:16px 0 12px;max-width:760px}.hero p{max-width:700px;color:#eee7f7;margin:0;font-size:16px}.hero-stats{display:flex;gap:20px;flex-wrap:wrap;margin-top:30px}.stat{min-width:145px}.stat b{display:block;font-size:23px}.stat span{font-size:13px;color:#ddd2eb}
+.grid{display:grid;grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr);gap:24px;align-items:start}.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.panel-head{padding:24px 26px 16px;border-bottom:1px solid var(--line)}.panel-head h2{margin:0 0 4px;font-size:21px}.panel-head p{margin:0;color:var(--muted);font-size:14px}.panel-body{padding:24px 26px}
+.progress{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:2px 0 22px}.progress span{height:6px;border-radius:99px;background:#eee9f2}.progress span.on{background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.section{padding:8px 0 24px}.section+.section{border-top:1px dashed var(--line);padding-top:24px}.section-title{display:flex;align-items:center;gap:10px;margin-bottom:15px}.num{width:30px;height:30px;border-radius:10px;background:var(--soft);color:var(--brand);display:grid;place-items:center;font-weight:800;font-size:13px}.section-title h3{margin:0;font-size:16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field.full{grid-column:1/-1}.field label{display:block;font-size:13px;font-weight:750;margin:0 0 7px}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#ffffff;border-radius:12px;padding:12px 13px;color:var(--ink);outline:none;transition:.18s}.field textarea{min-height:86px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#8b5cf6;box-shadow:0 0 0 4px rgba(109,40,217,.10);background:#fff}.hint{font-size:12px;color:var(--muted);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip input{display:none}.chip span{display:inline-flex;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:13px;color:#645d6c;transition:.16s}.chip input:checked+span{background:var(--soft);border-color:#c4b5fd;color:var(--brand);font-weight:750}.range-row{display:flex;align-items:center;gap:12px}.range-row input{accent-color:var(--brand);width:100%}.range-label{font-size:12px;color:var(--muted);white-space:nowrap}.form-actions{display:flex;gap:10px;position:sticky;bottom:10px;background:linear-gradient(180deg,rgba(255,255,255,.70),#ffffff 38%);padding-top:18px}.form-actions .primary{flex:1;padding:14px}
+.result-wrap{position:sticky;top:18px}.result-empty{min-height:720px;display:grid;place-items:center;text-align:center;padding:48px;color:var(--muted)}.result-empty .icon{width:72px;height:72px;margin:auto;border-radius:24px;background:var(--soft);display:grid;place-items:center;font-size:30px}.result-empty h3{color:var(--ink);margin:16px 0 7px}.tabs{display:flex;gap:8px;padding:16px 20px 0;border-bottom:1px solid var(--line)}.tab{border:0;background:transparent;padding:10px 12px 12px;color:var(--muted);font-weight:800;border-bottom:2px solid transparent}.tab.active{color:var(--brand);border-color:var(--brand)}.result-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:18px 22px 0}.result-toolbar small{color:var(--muted)}.result-content{padding:18px 22px 26px;max-height:calc(100vh - 170px);overflow:auto}.result-content h2{font-size:23px;margin:4px 0 14px}.result-content h3{font-size:16px;margin:22px 0 8px}.result-content p,.result-content li{font-size:14px;color:#514a59}.result-content ul{padding-left:20px}.callout{border:1px solid #ded1ed;background:#faf7fd;border-radius:14px;padding:14px 15px;margin:12px 0}.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.kpi div{border:1px solid var(--line);border-radius:13px;padding:13px;background:#fcfbfd}.kpi strong{display:block;font-size:12px;color:var(--muted)}.kpi b{display:block;margin-top:5px;font-size:15px}.footer{padding:34px 4px 12px;text-align:center;color:#807889;font-size:12px}
+.toast{position:fixed;right:24px;bottom:24px;background:#6d28d9;color:#fff;padding:12px 15px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:980px){.grid{grid-template-columns:1fr}.result-wrap{position:static}.result-content{max-height:none}.result-empty{min-height:360px}.hero{padding:32px}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}}
+@media(max-width:600px){.shell{padding:14px}.topbar{align-items:flex-start}.top-actions .btn:nth-child(1){display:none}.hero{padding:26px 22px;border-radius:22px}.panel-head,.panel-body{padding-left:18px;padding-right:18px}.tabs{overflow:auto}.kpi{grid-template-columns:1fr}.brand-text{max-width:190px}.hero-stats{gap:12px}.stat{min-width:120px}}
+@media print{body{background:#fff}.topbar,.hero,.grid>.panel:first-child,.tabs,.result-toolbar,.footer,.toast{display:none!important}.grid{display:block}.panel{box-shadow:none;border:0}.result-wrap{position:static}.result-content{max-height:none;padding:0}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand"><div class="logo">AI</div><div class="brand-text">SNS Marketing Studio<small>AI 콘텐츠 클래스 · 실습형 마케팅 도구</small></div></div>
+    <div class="top-actions"><button class="btn ghost" onclick="loadSample()">예시 불러오기</button><button class="btn soft" onclick="document.getElementById('guide').scrollIntoView({behavior:'smooth'})">사용 가이드</button></div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">✦ AI Marketing Planner</span>
+    <h1>아이디어를 입력하면<br>SNS 전략이 완성됩니다.</h1>
+    <p>상품·고객·채널 정보를 한 번만 입력하세요. 마케팅 방향, 콘텐츠 전략, 고객 메시지와 Gemini Gems용 맞춤 지침까지 한 번에 정리합니다.</p>
+    <div class="hero-stats"><div class="stat"><b>4 STEP</b><span>핵심 정보 입력</span></div><div class="stat"><b>3 OUTPUT</b><span>기획서 + Gems + 아이디어</span></div><div class="stat"><b>1 CLICK</b><span>복사 · 인쇄 · 저장</span></div></div>
+  </section>
+
+  <main class="grid">
+    <section class="panel">
+      <div class="panel-head"><h2>마케팅 정보 입력</h2><p>필수 내용만 간단히 적어도 충분합니다.</p></div>
+      <div class="panel-body">
+        <div class="progress"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
+        <form id="plannerForm" onsubmit="event.preventDefault();generate();">
+          <div class="section">
+            <div class="section-title"><span class="num">01</span><h3>비즈니스 기본 정보</h3></div>
+            <div class="fields">
+              <div class="field"><label>상품·서비스명 *</label><input id="product" required placeholder="예: AI 활용 SNS 마케팅 강의"></div>
+              <div class="field"><label>브랜드명</label><input id="brand" placeholder="예: AI 콘텐츠 클래스"></div>
+              <div class="field full"><label>핵심 특징·강점 *</label><textarea id="strength" required placeholder="예: AI 초보자도 쉽게 따라 하는 실습형 과정, 바로 활용 가능한 템플릿 제공"></textarea></div>
+              <div class="field full"><label>고객에게 제공하는 가장 큰 도움</label><input id="value" placeholder="예: 혼자서도 SNS 콘텐츠를 기획하고 제작할 수 있게 도움"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title"><span class="num">02</span><h3>목표와 고객</h3></div>
+            <div class="field full"><label>마케팅 목표 · 최대 2개 권장</label><div class="chips" id="goals">
+              <label class="chip"><input type="checkbox" value="브랜드 인지도 상승"><span>브랜드 인지도</span></label>
+              <label class="chip"><input type="checkbox" value="신규 고객 확보"><span>신규 고객 확보</span></label>
+              <label class="chip"><input type="checkbox" value="상담·문의 증가"><span>상담·문의 증가</span></label>
+              <label class="chip"><input type="checkbox" value="제품·서비스 판매 증진"><span>판매 증진</span></label>
+              <label class="chip"><input type="checkbox" value="재구매·충성도 증가"><span>재구매·충성도</span></label>
+            </div></div>
+            <div class="fields" style="margin-top:14px">
+              <div class="field"><label>주요 고객 연령대</label><select id="age"><option>20~30대</option><option selected>30~40대</option><option>40~50대</option><option>50~60대</option><option>전 연령</option></select></div>
+              <div class="field"><label>주요 고객</label><input id="customer" placeholder="예: 예비창업자, 1인 사업자, 소상공인"></div>
+              <div class="field full"><label>고객의 대표 고민 *</label><textarea id="pain" required placeholder="예: AI를 배우고 싶지만 어디서부터 시작해야 할지 모르고, SNS 홍보 콘텐츠 제작이 어렵다."></textarea></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title"><span class="num">03</span><h3>채널 전략</h3></div>
+            <div class="field full"><label>활용 채널</label><div class="chips" id="channels">
+              <label class="chip"><input type="checkbox" value="인스타그램"><span>Instagram</span></label>
+              <label class="chip"><input type="checkbox" value="네이버 블로그"><span>Naver Blog</span></label>
+              <label class="chip"><input type="checkbox" value="카카오톡 채널"><span>Kakao Channel</span></label>
+              <label class="chip"><input type="checkbox" value="유튜브·숏폼"><span>YouTube / Shorts</span></label>
+            </div></div>
+            <div class="fields" style="margin-top:14px">
+              <div class="field full"><label>핵심 콘텐츠 주제</label><input id="topics" placeholder="예: AI 활용법, SNS 콘텐츠 제작, 창업 실습, 수강생 사례"></div>
+              <div class="field full"><label>비즈니스 주요 일정</label><input id="schedule" placeholder="예: 9월 강의 모집, 10월 신규 과정 개강"></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title"><span class="num">04</span><h3>브랜드 톤앤매너</h3></div>
+            <div class="field full"><label>말투 선택</label><div class="chips" id="tones">
+              <label class="chip"><input type="radio" name="tone" value="전문적이고 신뢰감 있는" checked><span>전문적 · 신뢰감</span></label>
+              <label class="chip"><input type="radio" name="tone" value="친절하고 격려하는"><span>친절 · 격려</span></label>
+              <label class="chip"><input type="radio" name="tone" value="정감 있고 따뜻한"><span>따뜻 · 공감</span></label>
+              <label class="chip"><input type="radio" name="tone" value="직설적이고 명료한"><span>명료 · 간결</span></label>
+            </div></div>
+            <div class="field full" style="margin-top:15px"><label>격식 ↔ 친근</label><div class="range-row"><span class="range-label">격식</span><input type="range" id="friendly" min="1" max="5" value="3"><span class="range-label">친근</span></div></div>
+          </div>
+
+          <div class="form-actions"><button type="button" class="btn ghost" onclick="resetAll()">초기화</button><button class="btn primary" type="submit">AI 마케팅 기획서 생성 ✦</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel result-wrap" id="resultPanel">
+      <div id="empty" class="result-empty"><div><div class="icon">✦</div><h3>전략 결과가 여기에 표시됩니다</h3><p>왼쪽의 정보를 입력한 뒤<br><b>AI 마케팅 기획서 생성</b>을 눌러주세요.</p><button class="btn soft" onclick="loadSample()">예시 데이터로 체험하기</button></div></div>
+      <div id="resultBox" style="display:none">
+        <div class="tabs"><button class="tab active" data-tab="plan" onclick="switchTab('plan')">마케팅 기획서</button><button class="tab" data-tab="gems" onclick="switchTab('gems')">Gemini Gems 지침</button><button class="tab" data-tab="ideas" onclick="switchTab('ideas')">콘텐츠 아이디어</button></div>
+        <div class="result-toolbar"><small id="resultMeta">맞춤 전략 생성 완료</small><div><button class="btn ghost" onclick="copyCurrent()">복사</button> <button class="btn primary" onclick="downloadPDF()">PDF 다운로드</button> <button class="btn ghost" onclick="window.print()">인쇄</button></div></div>
+        <div class="result-content" id="resultContent"></div>
+      </div>
+    </section>
+  </main>
+
+  <section id="guide" class="panel" style="margin-top:24px">
+    <div class="panel-head"><h2>사용 가이드</h2><p>수업에서는 아래 3단계로 진행하면 가장 쉽습니다.</p></div>
+    <div class="panel-body"><div class="kpi"><div><strong>STEP 1</strong><b>상품과 고객 입력</b><span class="hint">무엇을 누구에게 알릴지 정합니다.</span></div><div><strong>STEP 2</strong><b>채널·톤 선택</b><span class="hint">어디에서 어떤 말투로 소통할지 정합니다.</span></div><div><strong>STEP 3</strong><b>결과 복사·활용</b><span class="hint">Gemini Gems 또는 SNS 글쓰기에 바로 활용합니다.</span></div></div></div>
+  </section>
+  <footer class="footer">SNS Marketing Studio · AI 콘텐츠 클래스 | 강사 서은양 · GitHub Pages 배포용 · 반응형 단일 페이지 웹앱</footer>
+</div>
+<div class="toast" id="toast">복사되었습니다.</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+let currentTab='plan', outputs={};
+const $=id=>document.getElementById(id);
+const checked=id=>[...$(id).querySelectorAll('input:checked')].map(x=>x.value);
+const esc=s=>(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function data(){return{product:$('product').value.trim(),brand:$('brand').value.trim()||$('product').value.trim(),strength:$('strength').value.trim(),value:$('value').value.trim(),goals:checked('goals'),age:$('age').value,customer:$('customer').value.trim()||'핵심 잠재고객',pain:$('pain').value.trim(),channels:checked('channels'),topics:$('topics').value.trim(),schedule:$('schedule').value.trim(),tone:document.querySelector('input[name=tone]:checked').value,friendly:$('friendly').value}}
+function generate(){if(!$('plannerForm').reportValidity())return; const d=data();if(!d.goals.length)d.goals=['브랜드 인지도 상승','신규 고객 확보'];if(!d.channels.length)d.channels=['인스타그램','네이버 블로그'];
+ const voice= d.friendly<=2?'격식을 유지한 설명형':d.friendly>=4?'친근하고 대화형':'전문성과 친근함이 균형 잡힌';
+ outputs.plan=`<h2>${esc(d.brand)} SNS 마케팅 기획서</h2><div class="callout"><b>핵심 방향</b><br>${esc(d.customer)}이(가) 겪는 “${esc(d.pain)}” 문제를 중심으로, ${esc(d.product)}의 강점인 ${esc(d.strength)}을 이해하기 쉬운 콘텐츠로 전달합니다.</div><div class="kpi"><div><strong>핵심 고객</strong><b>${esc(d.age)} · ${esc(d.customer)}</b></div><div><strong>주요 채널</strong><b>${esc(d.channels.join(' · '))}</b></div><div><strong>마케팅 목표</strong><b>${esc(d.goals.join(' · '))}</b></div></div><h3>1. 브랜드 포지셔닝</h3><p><b>${esc(d.brand)}</b>는 단순한 정보 제공보다 “쉽게 이해하고 바로 실행할 수 있게 돕는 브랜드”로 포지셔닝합니다. ${d.value?`고객이 얻는 핵심 가치는 <b>${esc(d.value)}</b>입니다.`:''}</p><h3>2. 고객 메시지</h3><ul><li><b>문제 공감:</b> ${esc(d.pain)}</li><li><b>해결 약속:</b> 복잡한 내용을 단계별로 단순화하고 바로 적용할 수 있는 방법을 제공합니다.</li><li><b>차별점:</b> ${esc(d.strength)}</li><li><b>행동 유도:</b> 저장 → 따라하기 → 문의/신청으로 이어지는 흐름을 만듭니다.</li></ul><h3>3. 채널 운영 전략</h3><ul>${d.channels.map(c=>`<li><b>${esc(c)}</b>: ${c.includes('블로그')?'검색형 정보·후기·상세 설명 중심':'짧고 시각적인 핵심 팁·사례·전후 비교 중심'} 콘텐츠를 운영합니다.</li>`).join('')}</ul><h3>4. 콘텐츠 구성 비율</h3><ul><li>교육·정보 40% — 실용 팁, 체크리스트, 사용법</li><li>신뢰·사례 25% — 후기, 결과물, 과정 소개</li><li>공감·브랜딩 20% — 고객 고민, 강사/브랜드 철학</li><li>홍보·전환 15% — 모집, 신청, 상담, 상품 소개</li></ul><h3>5. 톤앤매너</h3><p><b>${esc(d.tone)}</b> 어투를 기본으로, 전체 문장은 <b>${voice}</b> 느낌을 유지합니다. 전문용어는 줄이고 한 문장에 한 메시지만 담습니다.</p>${d.schedule?`<h3>6. 일정 활용</h3><p>${esc(d.schedule)} 일정 2~3주 전부터 정보형 → 신뢰형 → 모집형 콘텐츠 순으로 노출을 높입니다.</p>`:''}`;
+ outputs.gems=`<h2>${esc(d.brand)} · Gemini Gems 지침</h2><div class="callout">아래 내용을 Gemini의 <b>Gem 만들기 → 지침(Instructions)</b> 영역에 복사해 활용하세요.</div><h3>역할</h3><p>당신은 <b>${esc(d.brand)}</b>의 전담 SNS 마케팅 전략가이자 콘텐츠 에디터입니다.</p><h3>브랜드 정보</h3><ul><li>상품·서비스: ${esc(d.product)}</li><li>핵심 강점: ${esc(d.strength)}</li><li>핵심 고객: ${esc(d.age)} ${esc(d.customer)}</li><li>고객 고민: ${esc(d.pain)}</li><li>주요 목표: ${esc(d.goals.join(', '))}</li><li>활용 채널: ${esc(d.channels.join(', '))}</li></ul><h3>작성 원칙</h3><ul><li>항상 고객의 고민과 얻는 이익을 먼저 생각한다.</li><li>${esc(d.tone)} 톤을 유지한다.</li><li>설명은 쉬운 한국어로 쓰고, 실행 가능한 예시를 포함한다.</li><li>과장되거나 확인되지 않은 표현을 피하고 신뢰를 우선한다.</li><li>콘텐츠 끝에는 자연스러운 CTA를 1개 제안한다.</li><li>채널 특성에 맞게 문장 길이와 형식을 조절한다.</li></ul><h3>주요 명령어</h3><ul><li>“이번 주 콘텐츠 캘린더 만들어줘”</li><li>“인스타그램 카드뉴스 5장 구성해줘”</li><li>“네이버 블로그 글 작성해줘”</li><li>“릴스 30초 대본 만들어줘”</li><li>“홍보 문구 3가지 톤으로 만들어줘”</li><li>“이 콘텐츠를 초보자도 이해하도록 쉽게 바꿔줘”</li></ul>`;
+ const topic=d.topics||`${d.product}, 고객 고민 해결, 활용 팁, 실제 사례`;
+ outputs.ideas=`<h2>바로 쓸 수 있는 콘텐츠 아이디어</h2><p class="hint">추천 주제: ${esc(topic)}</p><h3>① 정보형</h3><ul><li>“처음 시작할 때 가장 많이 하는 실수 3가지”</li><li>“초보자를 위한 5분 체크리스트”</li><li>“이것만 알면 훨씬 쉬워집니다” 단계별 가이드</li></ul><h3>② 공감형</h3><ul><li>“${esc(d.pain)}”라고 느끼는 분께</li><li>시작하기 전 vs 시작한 후의 변화</li><li>고객이 가장 자주 묻는 질문 5개</li></ul><h3>③ 신뢰형</h3><ul><li>실습 과정 또는 제작 과정 비하인드</li><li>수강생·고객 결과물 Before & After</li><li>전문가가 직접 알려주는 선택 기준</li></ul><h3>④ 전환형</h3><ul><li>모집/판매 오픈 안내 + 누구에게 필요한지</li><li>신청 전 확인하면 좋은 FAQ 카드뉴스</li><li>마감 전 “이런 분께 추천합니다” 체크리스트</li></ul><h3>7일 샘플 캘린더</h3><ul><li>월: 고객 고민 공감 글</li><li>화: 실용 팁 카드뉴스</li><li>수: 짧은 실습/사용 영상</li><li>목: 사례·후기</li><li>금: FAQ</li><li>토: 브랜드 이야기</li><li>일: 다음 주 예고·CTA</li></ul>`;
+ $('empty').style.display='none';$('resultBox').style.display='block';$('resultMeta').textContent=`${d.brand} 맞춤 전략 · ${new Date().toLocaleDateString('ko-KR')}`;switchTab('plan');if(innerWidth<981)$('resultPanel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function switchTab(tab){currentTab=tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));$('resultContent').innerHTML=outputs[tab]||''}
+function downloadPDF(){
+  if(!outputs[currentTab]) return;
+  if(typeof html2pdf==='undefined'){
+    toast('PDF 모듈을 불러오지 못했습니다. 인쇄 기능을 이용해 주세요.');
+    return;
+  }
+
+  const d=data();
+  const tabName={plan:'마케팅기획서',gems:'Gemini_Gems_지침',ideas:'콘텐츠_아이디어'}[currentTab];
+  const titleName={plan:'SNS 마케팅 기획서',gems:'Gemini Gems 맞춤 지침',ideas:'SNS 콘텐츠 아이디어'}[currentTab];
+  const filename=`${(d.brand||d.product||'SNS마케팅').replace(/[\\/:*?"<>|]/g,'_')}_${tabName}.pdf`;
+
+  // 화면용 결과와 완전히 분리된 A4 전용 문서를 생성합니다.
+  const pdf=document.createElement('div');
+  pdf.className='pdf-document';
+  pdf.style.cssText=`
+    width:190mm; margin:0 auto; padding:0; background:#fff; color:#211827;
+    font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;
+    font-size:10.5pt; line-height:1.68; word-break:keep-all; overflow-wrap:break-word;
+  `;
+
+  pdf.innerHTML=`
+    <section class="pdf-cover">
+      <div class="pdf-kicker">SNS MARKETING STUDIO</div>
+      <h1>${esc(d.brand||d.product||'SNS Marketing Studio')}</h1>
+      <div class="pdf-subtitle">${titleName}</div>
+      <div class="pdf-meta">AI 콘텐츠 클래스 · ${new Date().toLocaleDateString('ko-KR')}</div>
+    </section>
+    <main class="pdf-body">${outputs[currentTab]}</main>
+    <footer class="pdf-footer">SNS Marketing Studio · AI 콘텐츠 클래스</footer>
+  `;
+
+  // 결과 내부의 화면용 대제목은 표지와 중복되므로 크기를 낮춥니다.
+  const body=pdf.querySelector('.pdf-body');
+  const firstH2=body.querySelector('h2');
+  if(firstH2) firstH2.remove();
+
+  // A4에 맞춘 PDF 전용 스타일
+  const style=document.createElement('style');
+  style.textContent=`
+    .pdf-document *{box-sizing:border-box}
+    .pdf-document .pdf-cover{border-bottom:2.5px solid #6d28d9;padding:2mm 0 7mm;margin-bottom:7mm;page-break-inside:avoid;break-inside:avoid}
+    .pdf-document .pdf-kicker{font-size:8.5pt;font-weight:800;letter-spacing:.11em;color:#6d28d9;margin-bottom:2mm}
+    .pdf-document .pdf-cover h1{font-size:21pt;line-height:1.25;margin:0;color:#17131c;word-break:break-word}
+    .pdf-document .pdf-subtitle{font-size:12pt;font-weight:700;color:#4c1d95;margin-top:2.5mm}
+    .pdf-document .pdf-meta{font-size:8.5pt;color:#777;margin-top:2mm}
+    .pdf-document .pdf-body h3{font-size:12.5pt;line-height:1.35;color:#4c1d95;margin:7mm 0 2.5mm;padding-bottom:1.5mm;border-bottom:1px solid #e8def2;page-break-after:avoid;break-after:avoid}
+    .pdf-document .pdf-body p{margin:0 0 3.2mm;color:#3d3545;orphans:3;widows:3}
+    .pdf-document .pdf-body ul{margin:1.5mm 0 4mm;padding-left:5.5mm}
+    .pdf-document .pdf-body li{margin:0 0 1.8mm;color:#3d3545;orphans:2;widows:2}
+    .pdf-document .pdf-body li::marker{color:#6d28d9}
+    .pdf-document .callout{border:1px solid #d9c8ec;background:#faf7ff;border-radius:3mm;padding:4mm 4.5mm;margin:3mm 0 5mm;color:#2f2637;page-break-inside:avoid;break-inside:avoid}
+    .pdf-document .kpi{display:block!important;margin:3mm 0 5mm!important}
+    .pdf-document .kpi>div{display:block!important;border:1px solid #e5dced!important;border-radius:2.5mm!important;padding:3.2mm 4mm!important;margin:0 0 2.2mm!important;background:#fff!important;page-break-inside:avoid;break-inside:avoid}
+    .pdf-document .kpi strong{display:inline-block!important;width:31mm!important;font-size:8.5pt!important;color:#766b7f!important;vertical-align:top}
+    .pdf-document .kpi b{display:inline!important;font-size:10pt!important;color:#211827!important;margin:0!important}
+    .pdf-document b{color:#211827}
+    .pdf-document .hint{font-size:9pt;color:#777;margin:0 0 4mm}
+    .pdf-document .pdf-footer{margin-top:8mm;padding-top:3mm;border-top:1px solid #eee7f2;text-align:right;color:#8b8193;font-size:7.5pt;page-break-inside:avoid}
+    .pdf-document h3+ul,.pdf-document h3+p{page-break-before:avoid;break-before:avoid}
+  `;
+  pdf.prepend(style);
+
+  // 캡처 전에 DOM에 잠시 붙여 폰트/레이아웃 계산을 안정화합니다.
+  const host=document.createElement('div');
+  host.style.cssText='position:fixed;left:-10000px;top:0;width:210mm;background:#fff;z-index:-1;';
+  host.appendChild(pdf);
+  document.body.appendChild(host);
+
+  const opt={
+    margin:[10,10,12,10],
+    filename,
+    image:{type:'jpeg',quality:0.98},
+    html2canvas:{
+      scale:2,
+      useCORS:true,
+      backgroundColor:'#ffffff',
+      letterRendering:true,
+      scrollX:0,
+      scrollY:0,
+      windowWidth:1200
+    },
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true},
+    pagebreak:{mode:['avoid-all','css','legacy'],before:[],after:[],avoid:['h3','.callout','.kpi > div','li']}
+  };
+
+  const run=()=>html2pdf().set(opt).from(pdf).save()
+    .then(()=>toast('A4 형식으로 PDF를 다운로드했습니다.'))
+    .catch(()=>toast('PDF 생성 중 오류가 발생했습니다. 인쇄 기능을 이용해 주세요.'))
+    .finally(()=>host.remove());
+
+  // 웹폰트 로딩이 끝난 뒤 캡처하면 한글 줄바꿈이 더 안정적입니다.
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>setTimeout(run,120));
+  }else{
+    setTimeout(run,120);
+  }
+}
+
+function copyCurrent(){const tmp=document.createElement('div');tmp.innerHTML=outputs[currentTab]||'';navigator.clipboard.writeText(tmp.innerText).then(()=>toast('결과를 복사했습니다.'))}
+function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1600)}
+function resetAll(){$('plannerForm').reset();document.querySelector('input[name=tone][value="전문적이고 신뢰감 있는"]').checked=true;$('empty').style.display='grid';$('resultBox').style.display='none';outputs={};toast('입력 내용을 초기화했습니다.')}
+function loadSample(){$('product').value='AI 활용 SNS 마케팅 실무 강의';$('brand').value='AI 콘텐츠 클래스';$('strength').value='AI 초보자도 쉽게 따라 하는 실습형 수업, ChatGPT·Gemini·Canva 활용, 바로 적용 가능한 프롬프트와 템플릿 제공';$('value').value='자신의 상품·서비스에 맞는 AI 활용법과 SNS 콘텐츠 제작 방법을 익히도록 도움';$('customer').value='예비창업자, 1인 사업자, 소상공인';$('pain').value='AI를 배우고 싶지만 어디서부터 시작해야 할지 모르고, 블로그와 인스타그램 홍보 콘텐츠를 직접 만드는 데 어려움을 느낀다.';$('topics').value='AI 활용법, SNS 콘텐츠 제작, 창업 실습, 고객 사례';$('schedule').value='9월 신규 과정 모집 및 개강';[...$('goals').querySelectorAll('input')].forEach((x,i)=>x.checked=[0,1].includes(i));[...$('channels').querySelectorAll('input')].forEach((x,i)=>x.checked=[0,1].includes(i));generate()}
+</script>
+</body>
+</html>
